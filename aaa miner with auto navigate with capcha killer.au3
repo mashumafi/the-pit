@@ -70,7 +70,6 @@ Func resume()
 		ControlSend($gui, "", "[CLASS:Internet Explorer_Server; INSTANCE:1]", "{enter}")
 		_IELoadWait($oIE,0,10000)
 		$autoleft = False
-;~ 		ControlSend($gui, "", "[CLASS:Internet Explorer_Server; INSTANCE:1]", "{left}")
 		_IELoadWait($oIE,0,10000)
 		autoleft()
 	EndIf
@@ -78,7 +77,6 @@ Func resume()
 		ControlSend($gui, "", "[CLASS:Internet Explorer_Server; INSTANCE:1]", "{enter}")
 		_IELoadWait($oIE,0,10000)
 		$autoup = False
-;~ 		ControlSend($gui, "", "[CLASS:Internet Explorer_Server; INSTANCE:1]", "{up}")
 		_IELoadWait($oIE,0,10000)
 		autoup()
 	EndIf
@@ -86,7 +84,6 @@ Func resume()
 		ControlSend($gui, "", "[CLASS:Internet Explorer_Server; INSTANCE:1]", "{enter}")
 		_IELoadWait($oIE,0,10000)
 		$autodown = False
-;~ 		ControlSend($gui, "", "[CLASS:Internet Explorer_Server; INSTANCE:1]", "{down}")
 		_IELoadWait($oIE,0,10000)
 		autodown()
 	EndIf
@@ -94,7 +91,6 @@ Func resume()
 		ControlSend($gui, "", "[CLASS:Internet Explorer_Server; INSTANCE:1]", "{enter}")
 		_IELoadWait($oIE,0,10000)
 		$autoright = False
-;~ 		ControlSend($gui, "", "[CLASS:Internet Explorer_Server; INSTANCE:1]", "{right}")
 		_IELoadWait($oIE,0,10000)
 		autoright()
 	EndIf
@@ -297,6 +293,9 @@ Func map()
 			$id = $id + 1
 		EndIf
 	Next
+	$sText = _IEBodyReadText($oIE)
+		$level = _StringBetween($sText, "You can use items, look at your map, or read your logbook. If you're feeling particularly strung out, you can walk out of the pit, but that'll cost you ", " motivation.")
+		GUICtrlSetData($levelnumber, "Level: " & $level[0])
 EndFunc   ;==>map
 map()
 ;~ --------------------------------------------------------------------------------------------------------------------------------
@@ -316,9 +315,9 @@ Func down()
 		GUICtrlSetBkColor($down, 0xFFFFFF)
 		GUICtrlSetData($down, "f")
 		GUICtrlSetColor($down, 0xFFFFFF)
-		$sText = _IEBodyReadText($oIE)
-		$level = _StringBetween($sText, "You can use items, look at your map, or read your logbook. If you're feeling particularly strung out, you can walk out of the pit, but that'll cost you ", " motivation.")
-		GUICtrlSetData($levelnumber, "Level: " & $level[0])
+;~ 		$sText = _IEBodyReadText($oIE)
+;~ 		$level = _StringBetween($sText, "You can use items, look at your map, or read your logbook. If you're feeling particularly strung out, you can walk out of the pit, but that'll cost you ", " motivation.")
+;~ 		GUICtrlSetData($levelnumber, "Level: " & $level[0])
 	EndIf
 EndFunc   ;==>down
 ;~ --------------------------------------------------------------------------------------------------------------------------------
@@ -336,9 +335,9 @@ Func right()
 		GUICtrlSetBkColor($down, 0xFFFFFF)
 		GUICtrlSetData($down, "f")
 		GUICtrlSetColor($down, 0xFFFFFF)
-		$sText = _IEBodyReadText($oIE)
-		$level = _StringBetween($sText, "You can use items, look at your map, or read your logbook. If you're feeling particularly strung out, you can walk out of the pit, but that'll cost you ", " motivation.")
-		GUICtrlSetData($levelnumber, "Level: " & $level[0])
+;~ 		$sText = _IEBodyReadText($oIE)
+;~ 		$level = _StringBetween($sText, "You can use items, look at your map, or read your logbook. If you're feeling particularly strung out, you can walk out of the pit, but that'll cost you ", " motivation.")
+;~ 		GUICtrlSetData($levelnumber, "Level: " & $level[0])
 		$light = False
 		$dark = False
 	EndIf
@@ -358,9 +357,9 @@ Func left()
 		GUICtrlSetBkColor($down, 0xFFFFFF)
 		GUICtrlSetData($down, "f")
 		GUICtrlSetColor($down, 0xFFFFFF)
-		$sText = _IEBodyReadText($oIE)
-		$level = _StringBetween($sText, "You can use items, look at your map, or read your logbook. If you're feeling particularly strung out, you can walk out of the pit, but that'll cost you ", " motivation.")
-		GUICtrlSetData($levelnumber, "Level: " & $level[0])
+;~ 		$sText = _IEBodyReadText($oIE)
+;~ 		$level = _StringBetween($sText, "You can use items, look at your map, or read your logbook. If you're feeling particularly strung out, you can walk out of the pit, but that'll cost you ", " motivation.")
+;~ 		GUICtrlSetData($levelnumber, "Level: " & $level[0])
 		$light = False
 		$dark = False
 	EndIf
@@ -380,9 +379,9 @@ Func up()
 		GUICtrlSetBkColor($down, 0xFFFFFF)
 		GUICtrlSetData($down, "f")
 		GUICtrlSetColor($down, 0xFFFFFF)
-		$sText = _IEBodyReadText($oIE)
-		$level = _StringBetween($sText, "You can use items, look at your map, or read your logbook. If you're feeling particularly strung out, you can walk out of the pit, but that'll cost you ", " motivation.")
-		GUICtrlSetData($levelnumber, "Level: " & $level[0])
+;~ 		$sText = _IEBodyReadText($oIE)
+;~ 		$level = _StringBetween($sText, "You can use items, look at your map, or read your logbook. If you're feeling particularly strung out, you can walk out of the pit, but that'll cost you ", " motivation.")
+;~ 		GUICtrlSetData($levelnumber, "Level: " & $level[0])
 	EndIf
 EndFunc   ;==>up
 
@@ -403,31 +402,36 @@ Func autodown()
 	
 	$motivation = _IEBodyReadText($oIE)
 	$motivation = _StringBetween($motivation, "Motivation: ", " [get more]")
-	If $motivation[0] > 0 Then
-		_IELinkClickByText($oIE, "mine")
-		If Not @error Then
-			_IELoadWait($oIE,0,10000)
-			$captcha = _IEBodyReadText($oIE)
-			$captcha = StringInStr($captcha, "captcha")
-			If $captcha > 0 Then
-				$autodown = True
-				info()
-				captcha()
+	If $level[0] = 13 Then
+		If $motivation[0] > 0 Then
+			_IELinkClickByText($oIE, "mine")
+			If Not @error Then
+				_IELoadWait($oIE,0,10000)
+				$captcha = _IEBodyReadText($oIE)
+				$captcha = StringInStr($captcha, "captcha")
+				If $captcha > 0 Then
+					$autodown = True
+					info()
+					captcha()
+				EndIf
 			EndIf
 		EndIf
 	EndIf
 	
-	_IELinkClickByText($oIE, "down")
-	If Not @error Then
-		_IELoadWait($oIE,0,10000)
-		_IELinkClickByText($oIE, "Onwards!")
-		_IELoadWait($oIE,0,10000)
-		ControlSend($gui, "", "[CLASS:Internet Explorer_Server; INSTANCE:1]", "{down}")
-		_IELoadWait($oIE,0,10000)
-		ControlSend($gui, "", "[CLASS:Internet Explorer_Server; INSTANCE:1]", "{=}")
-		_IELoadWait($oIE,0,10000)
-		autodown()
+	If $level[0] < 13 Then
+		_IELinkClickByText($oIE, "down")
+		If Not @error Then
+			_IELoadWait($oIE,0,10000)
+			_IELinkClickByText($oIE, "Onwards!")
+			_IELoadWait($oIE,0,10000)
+			ControlSend($gui, "", "[CLASS:Internet Explorer_Server; INSTANCE:1]", "{down}")
+			_IELoadWait($oIE,0,10000)
+			map()
+			_IELoadWait($oIE,0,10000)
+			autodown()
+		EndIf
 	EndIf
+	
 	If $left = "f" Then
 		ControlSend($gui, "", "[CLASS:Internet Explorer_Server; INSTANCE:1]", "{left}")
 		_IELoadWait($oIE,0,10000)
@@ -468,16 +472,18 @@ Func autoleft()
 	
 	$motivation = _IEBodyReadText($oIE)
 	$motivation = _StringBetween($motivation, "Motivation: ", " [get more]")
-	If $motivation[0] > 0 Then
-		_IELinkClickByText($oIE, "mine")
-		If Not @error Then
-			_IELoadWait($oIE,0,10000)
-			$captcha = _IEBodyReadText($oIE)
-			$captcha = StringInStr($captcha, "captcha")
-			If $captcha > 0 Then
-				$autoleft = True
-				info()
-				captcha()
+	If $level[0] = 13 Then
+		If $motivation[0] > 0 Then
+			_IELinkClickByText($oIE, "mine")
+			If Not @error Then
+				_IELoadWait($oIE,0,10000)
+				$captcha = _IEBodyReadText($oIE)
+				$captcha = StringInStr($captcha, "captcha")
+				If $captcha > 0 Then
+					$autoleft = True
+					info()
+					captcha()
+				EndIf
 			EndIf
 		EndIf
 	EndIf
@@ -522,33 +528,64 @@ Func autoup()
 	
 	$motivation = _IEBodyReadText($oIE)
 	$motivation = _StringBetween($motivation, "Motivation: ", " [get more]")
-	If $motivation[0] > 0 Then
-		_IELinkClickByText($oIE, "mine")
-		If Not @error Then
-			_IELoadWait($oIE,0,10000)
-			$captcha = _IEBodyReadText($oIE)
-			$captcha = StringInStr($captcha, "captcha")
-			If $captcha > 0 Then
-				$autoup = True
-				info()
-				captcha()
+	If $level[0] = 13 Then
+		If $motivation[0] > 0 Then
+			_IELinkClickByText($oIE, "mine")
+			If Not @error Then
+				_IELoadWait($oIE,0,10000)
+				$captcha = _IEBodyReadText($oIE)
+				$captcha = StringInStr($captcha, "captcha")
+				If $captcha > 0 Then
+					$autoup = True
+					info()
+					captcha()
+				EndIf
 			EndIf
 		EndIf
 	EndIf
+;~ --------------------------------------------------------------------
 
-	_IELinkClickByText($oIE, "up")
-	If Not @error Then
-		_IELoadWait($oIE,0,10000)
-		_IELinkClickByText($oIE, "Onwards!")
+	If $level[0] = 13 Then
+		If $motivation[0] > 0 Then
+			_IELinkClickByText($oIE, "up")
+			If Not @error Then
+				_IELoadWait($oIE,0,10000)
+				_IELinkClickByText($oIE, "Onwards!")
+			If Not @error Then
+				_IELoadWait($oIE,0,10000)
+				_IELinkClickByText($oIE, "down")
+			If Not @error Then
+				_IELoadWait($oIE,0,10000)
+				_IELinkClickByText($oIE, "Onwards!")
+				_IELoadWait($oIE,0,10000)
+				map()
+				_IELoadWait($oIE,0,10000)
+				autodown()
+			EndIf
+			EndIf
+			EndIf
+		EndIf
+	EndIf
+	
+;~ If $level[0] = 13 Then
+	If $motivation[0] = 0 Then
+		_IELinkClickByText($oIE, "up")
 		If Not @error Then
 			_IELoadWait($oIE,0,10000)
-			ControlSend ( $gui, "", "[CLASS:Internet Explorer_Server; INSTANCE:1]", "{up}")
-			_IELoadWait($oIE,0,10000)
-			ControlSend($gui, "", "[CLASS:Internet Explorer_Server; INSTANCE:1]", "{=}")
-			_IELoadWait($oIE,0,10000)
-			autoup()
-;~ 			autodown()
+			_IELinkClickByText($oIE, "Onwards!")
+			If Not @error Then
+				_IELoadWait($oIE,0,10000)
+				ControlSend ( $gui, "", "[CLASS:Internet Explorer_Server; INSTANCE:1]", "{up}")
+				_IELoadWait($oIE,0,10000)
+				map()
+				_IELoadWait($oIE,0,10000)
+				autoup()
+			EndIf
 		EndIf
+	EndIf
+;~ EndIf
+		
+;~ --------------------------------------------------------------------
 ;~ 		_IELinkClickByText ($oIE,"Light!")
 ;~ 		If Not @error Then
 ;~ 			_IELoadWait($oIE,0,10000)
@@ -564,7 +601,7 @@ Func autoup()
 ;~ 			_IELoadWait($oIE,0,10000)
 ;~ 			autodown()
 ;~ 		EndIf
-	EndIf
+;~ 	EndIf
 
 	If $right = "f" Then
 		ControlSend($gui, "", "[CLASS:Internet Explorer_Server; INSTANCE:1]", "{right}")
@@ -606,16 +643,18 @@ Func autoright()
 	
 	$motivation = _IEBodyReadText($oIE)
 	$motivation = _StringBetween($motivation, "Motivation: ", " [get more]")
-	If $motivation[0] > 0 Then
-		_IELinkClickByText($oIE, "mine")
-		If Not @error Then
-			_IELoadWait($oIE,0,10000)
-			$captcha = _IEBodyReadText($oIE)
-			$captcha = StringInStr($captcha, "captcha")
-			If $captcha > 0 Then
-				$autoright = True
-				info()
-				captcha()
+	If $level[0] = 13 Then
+		If $motivation[0] > 0 Then
+			_IELinkClickByText($oIE, "mine")
+			If Not @error Then
+				_IELoadWait($oIE,0,10000)
+				$captcha = _IEBodyReadText($oIE)
+				$captcha = StringInStr($captcha, "captcha")
+				If $captcha > 0 Then
+					$autoright = True
+					info()
+					captcha()
+				EndIf
 			EndIf
 		EndIf
 	EndIf
@@ -645,12 +684,12 @@ EndFunc   ;==>autoright
 
 ;~ --------------------------------------------------------------------------------------------------------------------------------
 While 1
-;~ 	ControlSend($gui, "", "[CLASS:Internet Explorer_Server; INSTANCE:1]", "{down}")
-;~ 	_IELoadWait($oIE,0,10000)
-;~ 	autodown()
-	ControlSend($gui, "", "[CLASS:Internet Explorer_Server; INSTANCE:1]", "{up}")
+	ControlSend($gui, "", "[CLASS:Internet Explorer_Server; INSTANCE:1]", "{down}")
 	_IELoadWait($oIE,0,10000)
-	autoup()
+	autodown()
+;~ 	ControlSend($gui, "", "[CLASS:Internet Explorer_Server; INSTANCE:1]", "{up}")
+;~ 	_IELoadWait($oIE,0,10000)
+;~ 	autoup()
 WEnd
 ;~ --------------------------------------------------------------------------------------------------------------------------------
 While 1
