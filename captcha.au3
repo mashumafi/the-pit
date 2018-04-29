@@ -5,31 +5,12 @@
 #include <EditConstants.au3>
 #include <GUIEdit.au3>
 #include <Math.au3>
-HotKeySet ( "{end}","captcha")
-HotKeySet ( "{esc}","esc")
 
-Func reset()
-	$lettertry = -1
-	$x=93
-	$y=125
-EndFunc
-
-Func reload()
-	$lettertry = -1
-EndFunc
-
-Func esc()
-	Exit
-EndFunc
-
-
-
+HotKeySet ("{end}","info")
 $letter = _StringBetween ( "[a][b][c][d][e][f][0][1][2][3][4][5][6][7][8][9]", "[", "]")
 $lettertry = -1
-$x=93
-$y=125
-
 Func captcha()
+;~ 	_IELoadWait($oIE)
 	$lettertry = $lettertry+1
 	$colums = 0
 	Do
@@ -45,20 +26,45 @@ Func captcha()
 		$colums = $colums + 1
 	Until $colums = 10
 	$final = $letter[$lettertry]
-	MsgBox (0,$final,$final)
-	If $x < 124 Then
+;~ 	ControlSend ( $gui, "", "[CLASS:Internet Explorer_Server; INSTANCE:1]", $final)
+MsgBox (0,$final,$final)
+	If $x < $count Then
 		$x=$x+8
-		reload()
+		$lettertry = -1
 		captcha()
 	EndIf
-	If $x > 124 Then
-	reset()
-	snooze()
+	If $x > $count Then
+	$lettertry = -1
+	resume()
 	EndIf
 EndFunc
 
-Func snooze()
+Func info()
+	$xpix = -1
+	$x1 = 12
+	$x2 = $x1 + 199
+	$y1 = 109
+	$y2 = $y1 + 49		
+	Do		
+		$xpix = $xpix+1
+		$pix = PixelSearch ($x2-$xpix,$y1,$x2-$xpix,$y2,13693136)
+	Until Not @error
+	Global $x = $pix[0]-37
+	$xpix = -1
+	Do
+		$xpix = $xpix+1
+		$pix = PixelSearch ($x1,$y2-$xpix,$x2,$y2-$xpix,13693136)
+	Until Not @error
+	Global $y = $pix[1]-9
+	
+	Global $count = $x + 31
+	MsgBox (0, $x & "," & $y, $count)
+	captcha()
+EndFunc
+			
+Func resume()
 	While 1
 	WEnd
 EndFunc
-snooze()
+			
+			resume()
